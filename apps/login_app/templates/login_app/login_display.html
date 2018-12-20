@@ -18,12 +18,11 @@
 <body style="background-image: url({% static 'login_app/images/gofish-bg.png' %})">
   <div class="container">
     <div class="view rounded mt-3 d-flex justify-content-center">
-      <div class="card border-primary align-self-start w-50">
-        <h3 class="card-header">REGISTER FOR GO FISH!</h3>
+      <div class="card border-primary align-self-start">
+        <h3 class="card-header">LOGIN TO GO FISH!</h3>
         <div class="card-body text-secondary">
 
           <div class="text-danger">
-
             <!-- start errors -->
             {% if messages %}
             {% for message in messages %}
@@ -33,34 +32,23 @@
             {% endfor %}
             {% endif %}
             <!-- end errors -->
-
+    
           </div>
-          <form action="/register" method="POST" id="register">
+
+          <form action="/login" method="POST" id="login">
             {% csrf_token %}
-            <div class="form-group">
-              <label for="first-name">First Name:</label>
-              <input type="text" class="form-control" name="first-name" id="first-name" value="{{request.session.first_name}}">
-            </div>
-            <div class="form-group">
-              <label for="last-name">Last Name:</label>
-              <input type="text" class="form-control" name="last-name" id="last-name" value="{{request.session.last_name}}">
-            </div>
             <div class="form-group">
               <label for="username">Username:</label>
               <input type="text" class="form-control" name="username" id="username" value="{{request.session.username}}">
             </div>
             <div class="form-group">
               <label for="password">Password:</label>
-              <input class="form-control" type="password" name="password" id="password">
+              <input type="password" class="form-control" name="password" id="password" value="{{request.session.password}}">
             </div>
-            <div class="form-group">
-              <label for="confirm_password">Confirm Password:</label>
-              <input class="form-control" type="password" name="confirm_password" id="confirm_password">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block mt-1 mb-3">REGISTER</button>
+            <button type="submit" class="btn btn-primary btn-block mt-1 mb-3">LOG IN</button>
           </form>
-          <p class="mt-4 mb-0 text-center">Already registered?</p>
-          <p class="text-center"> <a href="/login_display">Log in here.</a></p>
+          <p class="mt-4 mb-0 text-center">Not registered?</p>
+          <p class="text-center"> <a href="/registration">Create an account here.</a></p>
         </div>
       </div>
     </div>
