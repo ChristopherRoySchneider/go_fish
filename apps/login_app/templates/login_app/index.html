@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <title>Login</title>
+</head>
+
+<body>
+
+    <div class="container ">
+
+
+        
+        <div class="row">
+
+      
+            <div class="col">
+
+                <h1>Login</h1>
+
+                <form class="needs-validation" action="/login" method="POST">
+                    {% csrf_token %}
+                    <div class=" mb-3">
+                        Email: <input class="form-control" type="email" name="email" value="{{request.session.email}}">
+                    </div>
+                    <div class=" mb-3">
+                        Password: <input class="form-control" type="password" name="password" value="{{request.session.password}}">
+                    </div>
+
+                    <input type="submit" value="Log In" class="btn btn-primary btn-lg ">
+                </form>
+
+                <p class="mt-3">Register <a  href="/registration">here:</a></p>
+     
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                    {% if messages %}
+                    <br>
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<!-- <h1>Index Page</h1>
+<h3>Create a User</h3> -->

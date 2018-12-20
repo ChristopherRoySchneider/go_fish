@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'app_name/css/style.css' %}">
+
+
+    <title>Python Belt</title>
+</head>
+
+<body>
+
+    <div class="container ">
+
+
+
+        <div class="row mb-3">
+
+            <div class="col">
+
+                <h3>Welcome {{user.first_name}} {{user.last_name}} </h3>
+            </div>
+            <div class="col text-right text-bottom">
+                <a class = "align-bottom" href="../myaccount">Edit My Account</a>
+                <button class = "btn  ml-2" type="button" onclick="window.location.href = '/logout'">Logout</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <h4>Quotes</h4>
+                {% for quote in quotes reversed %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                            <p>{{quote.author}}: </p>
+                            <p>{{quote.quote}} </p>
+                            <p>Posted by <a href="user/{{quote.user.id}}">{{quote.user.first_name}} {{quote.user.last_name}}</a> </p>
+                            <form class="needs-validation" action="/quotes/like" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value={{request.session.user_id}}>
+                                <input type="hidden" name="quote_id" value={{quote.id}}>
+                                       
+                                <button type="submit" class="btn btn-sm ">
+                                        Like <span class="badge badge-light">{{quote.likes.all.count}}</span>
+                                </button>
+                            </form>
+                            {% if quote.user.id == request.session.user_id%}
+                                <form class="needs-validation mt-3" action="/quotes/delete" method="POST">
+                                    {% csrf_token %}
+
+
+                                    <input type="hidden" name="quote_id" value="{{quote.id}}">
+                                    <input type="submit" value="Delete Quote" class="btn btn-sm  ">
+                                </form>
+
+                            {%endif%}
+                    </div>
+                        
+                </div>
+                {%endfor%}
+               
+            </div>
+            <div class="col">
+                <h4>Add a Quote</h4>
+                <form class="needs-validation" action="/quotes/add" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value={{request.session.user_id}}>
+                    <div class="mb-3">
+                        Author: <input class="form-control" type="text" name="author">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="quote" placeholder="Enter Quote..."></textarea>
+                    </div>
+
+                    <input type="submit" value="Submit" class="btn btn-primary  ">
+                </form>
+
+                {% if messages %}
+                <br>
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<!-- <h1>Index Page</h1>
+<h3>Create a User</h3> -->
