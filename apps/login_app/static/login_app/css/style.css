@@ -5,7 +5,31 @@
     opacity: 0.8; */
 }
 
+.view-padding {
+    padding: 50px 40px;
+}
+
 .button-play {
     position: relative;
     top: 20px;
+}
+
+.puffer-logo {
+    width: 65px;
+}
+
+.title {
+    width: 150px;
+}
+
+.larger {
+    font-size: 24px;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.yellow:hover {
+    color: yellow;
 }

@@ -1,101 +1,85 @@
 <!doctype html>
+
 <html lang="en">
 
 <head>
-    {% load static %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
-
-    <title>Login</title>
+  <meta charset="utf-8">
+  <title>Go Fish</title>
+  <meta name="description" content="Go Fish Game for Kids">
+  <meta name="author" content="Narciso Lobo and Chris Schneider">
+  <meta name="background-designer" content="https://www.dreamstime.com/lightkitegirl_info">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'login_app/images/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'login_app/css/style.css' %}">
 </head>
 
-<body>
+<body style="background-image: url({% static 'login_app/images/gofish-bg.png' %})">
+  <div class="container">
+    
+    <!-- begin nav -->
+    <nav class="navbar navbar-expand-md fixed-top bg-primary">
+      <img class="title mr-4" src="{% static 'fish_app/images/title.png' %}" alt="Go Fish">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="/gofish" class="larger yellow">Welcome, {{user.first_name}}!</a>
+          </li>
+        </ul>
+      </div>
+      <p class="mr-3 mb-0 larger"><a href="../myaccount" class="yellow">Edit My Account</a></p>
+      <a href="../logout" class="btn btn-warning my-2 my-sm-0" role="button">LOG OUT</a>
+    </nav>
+    <!-- end nav -->
+    
+    <div class="view rounded mt-3 d-flex justify-content-center view-padding">
+      <div class="card border-primary align-self-start w-50">
+        <h3 class="card-header">EDIT MY ACCOUNT</h3>
+        <div class="card-body text-secondary">
 
-    <div class="container ">
+          <div class="text-danger">
 
-            <div class="row mb-3">
+            <!-- start errors -->
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags %}
+            <p>{{ message }}</p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <!-- end errors -->
 
-                    <div class="col">
-        
-        
-                    </div>
-                    <div class="col text-right text-bottom">
-                        <a class="align-bottom" href="../quotes">Back</a>
-                        <button class="btn  ml-2" type="button" onclick="window.location.href = '/logout'">Logout</button>
-                    </div>
-                </div>
-
-        
-        <div class="row">
-
-            <div class="col">
-
-                <h1>Edit My Account</h1>
-
-                <form class="needs-validation" action="/update" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="user_id" value="{{user.id}}">
-                    <div class="mb-3">
-                        First Name: <input class="form-control" type="text" name="first_name" value="{{user.first_name}}">
-                    </div>
-                    <div class=" mb-3">
-                        Last Name: <input class="form-control" type="text" name="last_name" value="{{user.last_name}}">
-                    </div>
-                    <div class="mb-3">
-                        Birthday: <input class="form-control" type="date" name="birthday" value="{{user.birthday | date:'Y-m-d' }}">
-                    </div>
-
-                    <div class=" mb-3">
-                        Email: <input class="form-control" type="email" name="email" value="{{user.email}}">
-                    </div>
-                    <div class=" mb-3">
-                        Password: <input class="form-control" type="password" name="password">
-                    </div>
-                    <div class=" mb-3">
-                        Confirm Password: <input class="form-control" type="password" name="confirm_password" >
-                    </div>
-
-                    <input type="submit" value="update" class="btn btn-primary btn-lg">
-                </form>
-
-                
-
-
-
+          </div>
+          <form action="/update" method="POST" id="update">
+            {% csrf_token %}
+            <input type="hidden" name="userid" value="{{user.id}}">
+            <div class="form-group">
+              <label for="first-name">First Name:</label>
+              <input type="text" class="form-control" name="first-name" id="first-name" value="{{user.first_name}}">
             </div>
-
-        
-        </div>
-        <div class="row">
-            <div class="col">
-                    {% if messages %}
-                    <br>
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
+            <div class="form-group">
+              <label for="last-name">Last Name:</label>
+              <input type="text" class="form-control" name="last-name" id="last-name" value="{{user.last_name}}">
             </div>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" name="username" id="username" value="{{user.username}}">
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input class="form-control" type="password" name="password" id="password">
+            </div>
+            <div class="form-group">
+              <label for="confirm_password">Confirm Password:</label>
+              <input class="form-control" type="password" name="confirm_password" id="confirm_password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-1 mb-3">UPDATE</button>
+          </form>
         </div>
-
+      </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+  </div>
 </body>
 
 </html>
-
-<!-- <h1>Index Page</h1>
-<h3>Create a User</h3> -->

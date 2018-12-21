@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^registration$', views.registration),
     url(r'^register$', views.register),
     url(r'^login$', views.login),
-    url(r'^success$', views.success),
+    url(r'^new_player$', views.new_player),
     url(r'^logout$', views.logout),
     url(r'^myaccount$', views.myaccount),
     url(r'^update$', views.update),

@@ -5,31 +5,8 @@
     opacity: 0.8; */
 }
 
-.top-avatar {
-    width: 100px;
-    position: relative;
-    left: 512px;
-    transform: rotate(90deg);
-}
-
-.left-avatar {
-    width: 100px;
-    position: relative;
-    top: 264px;
-    left: -100px;
-}
-
-.right-avatar {
-    width: 100px;
-    position: relative;
-    top: 264px;
-    left: 800px;
-    transform: scaleX(-1);
-}
-
-.yellow {
-    background-color: yellow;
-    color: black;
+.view-padding {
+    padding: 50px 40px;
 }
 
 .button-play {
@@ -37,6 +14,22 @@
     top: 20px;
 }
 
-.card {
-    display: block;
+.puffer-logo {
+    width: 65px;
+}
+
+.title {
+    width: 150px;
+}
+
+.larger {
+    font-size: 24px;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.yellow:hover {
+    color: yellow;
 }

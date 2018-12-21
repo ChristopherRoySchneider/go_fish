@@ -18,19 +18,20 @@ card_image_map = {'Tc': 'fish_app/images/cards/10_clubs.png', 'Td': 'fish_app/im
 
 
 def index(request):
-    user = User.objects.get(id=request.session['user_id'])
+    user = User.objects.get(id = request.session['user_id'])
+    all_other_users = User.objects.exclude(id=user.id)
     context = {
-
-        'user': user,
+        'user':user,
+        'all_other_users': all_other_users
     }
-    return render(request, 'fish_app/index.html', context)
+    return render(request,'fish_app/index.html', context)
 ###
 
 
 def initialize(request):
 
     deck = []
-
+    print(request.POST)
     ranks = "A2345"
     suits = "cdhs"
     request.session['ranks'] = ranks
@@ -46,7 +47,7 @@ def initialize(request):
     print(deck)
     request.session['deck'] = deck
 
-    num_players = 2  # fixlater
+    num_players = int(request.POST['num_players'])
 
     request.session['num_players'] = num_players
 
@@ -60,7 +61,16 @@ def initialize(request):
 
     players = []
     
-    player_ids = ["z", "x"]  # fixlater
+    player_ids = []  
+    if 'player_1' in request.POST.keys():
+        player_ids.append(request.POST['player_1'])
+    if 'player_2' in request.POST.keys():
+        player_ids.append(request.POST['player_2'])
+    if 'player_3' in request.POST.keys():
+        player_ids.append(request.POST['player_3'])
+    if 'player_4' in request.POST.keys():
+        player_ids.append(request.POST['player_4'])
+
 
     for player_index in range(num_players):
         name = player_ids[player_index]
