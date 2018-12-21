@@ -20,6 +20,7 @@
     <div class="view rounded mt-3 text-center">
       <img src="{% static 'fish_app/images/no-peeks.png' %}" alt="" class="mt-4">
       <div class="play-button">
+        <h1 class="mt-3">{{ request.session.player_name }}'s turn next!!</h1>
         <a href="/gofish/maingame" role="button" class="button-play">
           <img src="{% static 'fish_app/images/ready.png' %}" alt="">
         </a>

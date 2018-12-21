@@ -95,7 +95,7 @@ def initialize(request):
     request.session['player_name'] = players[player_index].name
     request.session['other_player_names'] = [player.name for player in players if player.name !=players[player_index].name]
 
-    players_json = json.dumps([player.__dict__ for player in players])
+    players_json = json.loads(json.dumps([player.__dict__ for player in players]))
     request.session['players'] = players_json
     
     request.session['num_cards'] = num_cards
@@ -141,7 +141,7 @@ def taketurn(request):
     print(request.POST['ask_rank'])
     num_players = request.session['num_players']
     players = []
-    players_from_session = json.loads(request.session['players'])
+    players_from_session = request.session['players']
     print(players_from_session)
     for session_player in players_from_session:
         players.append(
@@ -257,7 +257,7 @@ def taketurn(request):
     request.session['player_index'] = player_index
     request.session['player_name'] = players[player_index].name
     request.session['other_player_names'] = [player.name for player in players if player.name !=players[player_index].name]
-    players_json = json.dumps([player.__dict__ for player in players])
+    players_json = json.loads(json.dumps([player.__dict__ for player in players]))
     request.session['players'] = players_json
     request.session['turn_ask'] = True
     request.session['turn_fish'] = False
@@ -310,6 +310,11 @@ def passcontrol(request):
     return render(request, 'fish_app/passcontrol.html')
 
 def gameover(request):
+    maxbooks = 0
+    for player in request.session['players']:
+        print("gameover player",player)
+        if len(player['books'])>maxbooks:
+            maxbooks = len(player['books'])
+            request.session['winner'] = player['name']
     
-
     return render(request, 'fish_app/gameover.html')

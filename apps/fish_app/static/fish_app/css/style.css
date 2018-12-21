@@ -33,3 +33,7 @@
 .yellow:hover {
     color: yellow;
 }
+
+.img-fluid {
+    width:150px;
+}

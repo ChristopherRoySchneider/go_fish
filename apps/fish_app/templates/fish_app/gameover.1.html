@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'fish_app/css/style.css' %}">
+
+
+    <title>Game Page</title>
+</head>
+
+<body>
+
+    <div class="container ">
+
+
+
+        <div class="row mb-3">
+
+            <div class="col">
+                
+                <h3>Welcome {{user.first_name}} {{user.last_name}} </h3>
+            </div>
+            <div class="col text-right text-bottom">
+                <a class="align-bottom" href="../myaccount">Edit My Account</a>
+                <button class="btn  ml-2" type="button" onclick="window.location.href = '/logout'">Logout</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col">
+                    <h1> Game Over</h1>
+                <p> Num Players: {{request.session.num_players}}</p>
+                <p> Players: {{request.session.players}}</p>
+                <p> Current Player: {{request.session.player_name}}</p>
+                <p> Deck: {{request.session.deck}}</p>
+                <p> Books: {{request.session.books}}</p>
+                
+
+
+                <h3> completed games</h3>
+
+                <h3> Leaderboard</h3>
+                <h3> New Game</h3>
+
+                <form class="needs-validation" action="/gofish/initialize" method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        Number of Players:
+                        <select name=num_players>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" value="Submit" class="btn btn-primary  ">
+                </form>
+
+                <form class="needs-validation" action="/gofish/taketurn" method="POST">
+                    {% csrf_token %}
+                    {% if  request.session.rank_counts|length == 0 %}
+                    <p> empty rank counts </p>
+                    <div class="mb-3">
+                        <input type = "hidden" name=ask_rank value="A">
+                        <input type = "hidden" name=ask_player value="{{request.session.player_name}}">
+                            
+                    </div>
+                        <input type="submit" value="Draw Cards!" class="btn btn-primary  ">
+                    {%else%}
+                        <p>not empty rank counts</p>
+                        
+                    <div class="mb-3">
+                        Ask for card:
+                        
+                        
+                        
+                        <select name=ask_rank>
+                            {% for rank_count in request.session.rank_counts %}
+                            
+                            <option value="{{rank_count}}">{{rank_count}}</option>
+                            
+                            {%endfor%}
+                        </select>
+                        from player: 
+                        <select name=ask_player>
+                                
+                                {%for player in request.session.other_player_names %}
+                                     
+                                    <option value="{{player}}">{{player}}</option>
+                                    
+                                {%endfor%}
+                            </select>
+                            
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-primary  ">
+                    {%endif%}
+                    
+                </form>
+                <h3>My Cards</h3>
+                <div class="row">
+                        
+                        {%for card_img_name in request.session.hand_images %}
+                        <div class="col">
+                                <img class = "img-fluid" src="{% static card_img_name %}" />
+                        </div>
+                         
+                    {%endfor%}
+                </div>
+
+                <h3>Cards Received</h3>
+                <div class="row">
+                        {%for taken_card_img_name in request.session.taken_cards_images %}
+                        <div class="col">
+                                <img class = "img-fluid" src="{% static taken_card_img_name %}" />
+                        </div>
+                         
+                    {%endfor%}
+                </div>
+
+
+                
+                <h3>Card Fished</h3>
+                <div class="row">
+                        {%for fished_card in request.session.fished_cards_images %}
+                        <div class="col">
+                                <img class = "img-fluid" src="{% static fished_card %}" />
+                        </div>
+                         
+                    {%endfor%}
+                </div>
+
+                <h3>Books</h3>
+                <div class="row">
+                        {%for book_image in request.session.book_images %}
+                        <div class="col">
+                                <img class = "img-fluid" src="{% static book_image %}" />
+                        </div>
+                         
+                        {%endfor%}
+                </div>
+                
+                
+
+                {% if messages %}
+                <br>
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<!-- <h1>Index Page</h1>
+<h3>Create a User</h3> -->
