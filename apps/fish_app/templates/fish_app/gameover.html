@@ -39,12 +39,11 @@
         <div class="row">
 
             <div class="col">
-                    <h1>Main Game - Current Player: {{request.session.player_name}}</h1>
+                    <h1> Game Over</h1>
                 <p> Num Players: {{request.session.num_players}}</p>
                 <p> Players: {{request.session.players}}</p>
                 <p> Current Player: {{request.session.player_name}}</p>
                 <p> Deck: {{request.session.deck}}</p>
-                <p> Deck Length: {{request.session.deck|length}}</p>
                 <p> Books: {{request.session.books}}</p>
                 
 
@@ -148,16 +147,6 @@
                         {%for book_image in request.session.book_images %}
                         <div class="col">
                                 <img class = "img-fluid" src="{% static book_image %}" />
-                        </div>
-                         
-                        {%endfor%}
-                </div>
-
-                <h3>Deck</h3>
-                <div class="row">
-                        {%for card in request.session.deck %}
-                        <div class="col">
-                                <img class = "img-fluid" src="{% static 'fish_app/images/cards/card.png'  %}" />
                         </div>
                          
                         {%endfor%}

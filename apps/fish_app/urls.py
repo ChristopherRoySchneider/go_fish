@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^maingame$', views.maingame),
     url(r'^taketurn$', views.taketurn),
     url(r'^gameover$', views.gameover),
+    url(r'^handover$', views.handover),
+    url(r'^passcontrol$', views.passcontrol),
 ]
