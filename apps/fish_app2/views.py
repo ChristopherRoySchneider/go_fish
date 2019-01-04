@@ -31,6 +31,7 @@ def save_game_to_db(game_id, game):
     game_in_db.deck = json.dumps(game.deck)
     game_in_db.player_index = game.player_index 
     game_in_db.books = game.books
+    game_in_db.game_over = game.game_over
     game_in_db.save()
     for p in game_in_db.players.all():
         p.hand = json.dumps(game.players[p.position].hand)
