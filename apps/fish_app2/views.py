@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .cards import Card, Hand, Deck
+
 from apps.login_app.models import User
 from django.contrib import messages
 import json
