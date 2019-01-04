@@ -33,11 +33,12 @@ def initialize(request):
     deck = []
     print(request.POST)
     ranks = "A2345"
+    # ranks = "A23456789TJQK"
     suits = "cdhs"
     request.session['ranks'] = ranks
 
-    # ranks = "A23456789TJQK"
-    # suits = "cdhs"
+    
+    
 
     for rank in ranks:
         for suit in suits:

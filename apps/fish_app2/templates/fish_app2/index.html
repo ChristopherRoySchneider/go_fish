@@ -1,0 +1,147 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Go Fish</title>
+  <meta name="description" content="Go Fish Game for Kids">
+  <meta name="author" content="Narciso Lobo and Chris Schneider">
+  <meta name="background-designer" content="https://www.dreamstime.com/lightkitegirl_info">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'fish_app2/images/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'fish_app2/css/style.css' %}">
+
+  <script type="text/javascript">
+    $( document ).ready(function() {
+      var rows = $('table.setup tr');
+      var twoPlayers = rows.filter('.two-players');
+      var threePlayers = rows.filter('.three-players');
+      var fourPlayers = rows.filter('.four-players');
+      var inputs = $('form.initialize input');
+      var numPlayers = inputs.filter('.num_players');
+
+      threePlayers.hide();
+      fourPlayers.hide();
+      
+      $('#two').click(function() {
+        numPlayers.val(2);
+        threePlayers.hide();
+        fourPlayers.hide();
+      });
+
+      $('#three').click(function() {
+        numPlayers.val(3);
+        threePlayers.show();
+        fourPlayers.hide();
+      });
+      
+      $('#four').click(function() {
+        numPlayers.val(4);
+        threePlayers.show();
+        fourPlayers.show();
+      });
+    });
+  </script>
+
+</head>
+
+<body style="background-image: url({% static 'fish_app2/images/gofish-bg.png' %})">
+  <div class="container">
+
+    <!-- begin nav -->
+    <nav class="navbar navbar-expand-md fixed-top bg-primary">
+      <img class="title mr-4" src="{% static 'fish_app2/images/title.png' %}" alt="Go Fish">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="/gofish" class="larger yellow">Welcome, {{user.first_name}}!</a>
+          </li>
+        </ul>
+      </div>
+      <p class="mr-3 mb-0 larger"><a href="../myaccount" class="yellow">Edit My Account</a></p>
+      <a href="../logout" class="btn btn-warning my-2 my-sm-0" role="button">LOG OUT</a>
+    </nav>
+    <!-- end nav -->
+
+    <div class="view rounded mt-3 view-padding text-center">
+
+      <!-- start errors -->
+      {% if messages %}
+      <div class="text-danger">
+        {% for message in messages %}
+        {% if message.tags %}
+        <p>{{ message }}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <!-- end errors -->
+
+      <img src="{% static 'fish_app2/images/start.png' %}" alt="Start New Game" class="mt-3 mb-3">
+
+      <form action="/gofish/initialize" method="POST" class="initialize">
+      {% csrf_token %}
+      <table class="w-50 bg-white rounded mx-auto setup">
+        <tr>
+          <td class="text-right p-3">Number of Players:</td>
+          <td class="p-3 d-flex justify-content-center">
+            <a href="#" id="two" role="button" class="btn btn-primary">2</a>
+            <a href="#" id="three" role="button" class="btn btn-primary ml-2">3</a>
+            <a href="#" id="four" role="button" class="btn btn-primary ml-2">4</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right p-3">Player 1:</td>
+          <td class="p-3 d-flex justify-content-center">
+            <input name="player_1" id="player_1" type="hidden" value="{{ user.username }}">{{ user.username }} (you)
+          </td>
+        </tr>
+        <tr class="two-players">
+          <td class="text-right p-3"><label for="player_2" class="text-right col-form-label">Choose Player 2:</label></td>
+          <td class="p-3">
+            <select name="player_2" id="player_2" class="form-control">
+              {% for user in all_other_users %}
+              <option value="{{ user.username }}">{{ user.username }}</option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr class="three-players">
+          <td class="text-right p-3"><label for="player_3" class="text-right col-form-label">Choose Player 3:</label></td>
+          <td class="p-3">
+            <select name="player_3" id="player_3" class="form-control">
+              {% for user in all_other_users %}
+              <option value="{{ user.username }}">{{ user.username }}</option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr class="four-players">
+          <td class="text-right p-3"><label for="player_4" class="text-right col-form-label">Choose Player 4:</label></td>
+          <td class="p-3">
+            <select name="player_4" id="player_4" class="form-control">
+              {% for user in all_other_users %}
+              <option value="{{ user.username }}">{{ user.username }}</option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <input name="num_players" class="num_players" type="hidden" value="2"></input>
+          <input name="new_game" class="new_game" type="hidden" value="True"></input>
+          <td colspan="2" class="p-3"><input type="submit" value="START GAME" class="btn btn-primary btn-block"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="p-4"><a href="../new_player">Click here to register a new player!</a></td>
+        </tr>
+      </table>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

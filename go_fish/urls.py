@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin             
 urlpatterns = [
     url(r'^', include('apps.login_app.urls')),
-    url(r'^gofish/', include('apps.fish_app.urls')),
+    url(r'^gofish/', include('apps.fish_app2.urls')),
     	# use your app_name here
     # url(r'^admin/', admin.sites.urls)         # comment out, or just delete
 ]

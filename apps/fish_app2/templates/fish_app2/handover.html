@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Go Fish</title>
+  <meta name="description" content="Go Fish Game for Kids">
+  <meta name="author" content="Narciso Lobo and Chris Schneider">
+  <meta name="background-designer" content="https://www.dreamstime.com/lightkitegirl_info">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'fish_app2/images/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'fish_app2/css/style.css' %}">
+</head>
+
+<body style="background-image: url({% static 'fish_app2/images/gofish-bg.png' %})">
+  <div class="container">
+
+    <!-- begin nav -->
+    <nav class="navbar navbar-expand-md fixed-top bg-primary">
+      <img class="title mr-4" src="{% static 'fish_app2/images/title.png' %}" alt="Go Fish">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="#" class="larger yellow mr-3">{{request.session.num_players}} Player Game</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="larger yellow mr-3">|</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="larger yellow ml-1 mr-3">Cards Remaining in Deck: {{request.session.deck|length}}</a>
+          </li>
+        </ul>
+      </div>
+      <a href="../logout" class="btn btn-warning my-2 my-sm-0" role="button">LOG OUT</a>
+    </nav>
+    <!-- end nav -->
+
+    <div class="view rounded mt-3 view-padding">
+
+      <!-- begin top row -->
+      <div class="row d-flex">
+        <div class="col-sm-8 bg-white rounded p-3 mr-3 align-self-start">
+
+          <!-- begin take turn -->
+          <h1>Hand Over</h1>
+
+
+          <!-- begin show fished -->
+          {% if request.session.fished_cards_images %}
+          <h4>Card Fished:</h4>
+          {%for fished_card in request.session.fished_cards_images %}
+          <img class="img-fluid" src="{% static fished_card %}" />
+          {%endfor%}
+          {% endif %}
+          <!-- end show fished -->
+          <a class="btn btn-primary btn-block mt-3" role="button" href="/gofish/passcontrol">Click to End Turn!</a>
+          <!-- end take turn -->
+
+        </div>
+
+        <div class="col-sm-3 rounded bg-white p-3">
+
+          <!-- begin info -->
+          <h4>Players:</h4>
+          <table class="table table-bordered table-striped">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Cards</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for player in request.session.players%}
+              <tr>
+                <td>{{player.name}}</td>
+                <td>{{player.books|length}}</td>
+                <td>{{player.hand|length}}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+          <!-- end info -->
+
+        </div>
+      </div>
+      <!-- end top row -->
+
+    </div>
+  </div>
+</body>
+
+</html>

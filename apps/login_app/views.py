@@ -9,7 +9,12 @@ def index(request):
     return render(request, 'login_app/index.html')
 
 def login_display(request):
-    return render(request, 'login_app/login_display.html')
+    if 'username' in request.session:
+        print("going to gofish",request.session['username'])
+        return redirect('/gofish')
+    else:
+        # print( "going to login display", request.session['username'])
+        return render(request, 'login_app/login_display.html')
 
 def registration(request):
     return render(request, 'login_app/registration.html')

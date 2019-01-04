@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'apps.fish_app',
+    'apps.fish_app2',
     
     'apps.login_app',
     'django.contrib.admin',
